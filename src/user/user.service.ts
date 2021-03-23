@@ -61,47 +61,23 @@ export class UserService {
         }
     }
 
-    async userAnswerQuestion(userid: string, questionid: string, answerids: string[]) {
-        //const user = await this.userModel.findById(userid);
-        /*console.log(userid);
-        
-        this.userModel.findById(userid).exec().then(userData => {
-            
-
-            console.log("123");
-            console.log(userData);
-            console.log(userData.$getAllSubdocs);
-            console.log("123");
-
-            
-
-            //console.log(questionAnswersSet);
-            return userData;
-        
-        });*/
-        let questionAnswersSet: Questionanswers[] = [];
+    async userAnswerQuestion(userid: string, questionid: string, answerids: string[]): Promise<any> {
+        let user: any;
+        let questionAnswersSet: any[] = [];
         answerids.forEach(answerId => {
             this.questionAnswerModel.findById(answerId).exec().then(questionAnswer => {
-                //console.log(questionAnswer);
                 let questionAnswersMod = new this.questionAnswerModel(questionAnswer);
-                questionAnswersSet.push(questionAnswersMod);
-
-               /* this.userModel.find({"useranswers.id": questionAnswersMod}).exec().then(selectedData => {
-                    console.log("123");
-                    console.log(selectedData);
-                    console.log("123");
-                });*/
-                this.userModel.findByIdAndUpdate(userid, {$addToSet: {'useranswers': questionAnswersMod}}).then(updatedData => {
-                    
-                    return updatedData;
-                    
-                });
-
+                questionAnswersSet.push(answerId);
+                this.userModel.findByIdAndUpdate(userid, {$addToSet: {'useranswers': questionAnswersMod}}).exec();
             });
         });
     
-        //return user;
-        //let questionAnswerList = 
-        //user.update
+        return questionAnswersSet;
+    }
+
+    async getUserDataById(userid: string): Promise<any> {
+        console.log(userid);
+        const user = await this.userModel.findById(userid).populate({path: "useranswers"});
+        return user;
     }
 }

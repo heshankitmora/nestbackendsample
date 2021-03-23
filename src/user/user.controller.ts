@@ -30,5 +30,11 @@ export class UserController {
     ) {
         return await this.userService.userAnswerQuestion(params.userid, answerUserDto.quesitonid, answerUserDto.answerids);
     }
+
+    @Get('/getuser/:userid')
+    @HttpCode(HttpStatus.OK)
+    async getAllQuestions(@Param() params) {
+        return await this.userService.getUserDataById(params.userid);
+    }
 }
 

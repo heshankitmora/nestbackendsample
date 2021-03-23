@@ -8,6 +8,10 @@ export const QuestionAnswersSchema = new mongoose.Schema({
     },
     answercorrect: {
         type: Number
+    },
+    questionanswers: {
+        type: Schema.Types.ObjectId,
+        ref: 'Question'
     }
 }, {
     versionKey: false,
