@@ -1,11 +1,12 @@
 import { Roles } from './../authentication/decorators/roles.decorator';
 import { Request } from 'express';
 import { LoginUserDto } from './dto/login-user.dto';
-import { Get, Post, Body, Param, Req, HttpCode, HttpStatus, Controller, Put } from '@nestjs/common';
+import { Get, Post, Body, Param, Req, HttpCode, HttpStatus, Controller, Put, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { AuthGuard, PassportModule } from '@nestjs/passport';
 import { AnswerUserDto } from './dto/answer-user.dto';
+import { RolesGuard } from 'src/authentication/guards/roles.guard';
 
 @Controller('user')
 export class UserController {

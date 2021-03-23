@@ -6,6 +6,9 @@ export const QuestionSchema = new mongoose.Schema({
         type: String,
         required: [true, 'QUESTION_BLANK']
     },
+    questiontype: {
+        type: Number
+    },
     questionanswers: [
         {
             type: Schema.Types.ObjectId,

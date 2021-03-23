@@ -39,6 +39,7 @@ export class UserService {
         }
         
         return {
+            id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -64,11 +65,12 @@ export class UserService {
     async userAnswerQuestion(userid: string, questionid: string, answerids: string[]): Promise<any> {
         let user: any;
         let questionAnswersSet: any[] = [];
+        this.userModel.findByIdAndUpdate(userid, { $set: {'useranswers': []}}).exec();
         answerids.forEach(answerId => {
             this.questionAnswerModel.findById(answerId).exec().then(questionAnswer => {
                 let questionAnswersMod = new this.questionAnswerModel(questionAnswer);
                 questionAnswersSet.push(answerId);
-                this.userModel.findByIdAndUpdate(userid, {$addToSet: {'useranswers': questionAnswersMod}}).exec();
+                this.userModel.findByIdAndUpdate(userid, { $addToSet: {'useranswers': questionAnswersMod}}).exec();
             });
         });
     
