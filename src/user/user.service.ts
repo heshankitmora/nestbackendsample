@@ -63,26 +63,41 @@ export class UserService {
 
     async userAnswerQuestion(userid: string, questionid: string, answerids: string[]) {
         //const user = await this.userModel.findById(userid);
-        console.log(userid);
+        /*console.log(userid);
         
         this.userModel.findById(userid).exec().then(userData => {
-            let questionAnswersSet: Questionanswers[] = [];
+            
 
             console.log("123");
             console.log(userData);
-            console.log(userData.useranswers);
+            console.log(userData.$getAllSubdocs);
             console.log("123");
 
-            answerids.forEach(answerId => {
-                this.questionAnswerModel.findById(answerId).exec().then(questionAnswer => {
-                    console.log(questionAnswer);
-                    let questionAnswersMod = new this.questionAnswerModel(questionAnswer);
-                    questionAnswersSet.push(questionAnswersMod);
-                });
-            });
-            console.log(questionAnswersSet);
+            
+
+            //console.log(questionAnswersSet);
             return userData;
         
+        });*/
+        let questionAnswersSet: Questionanswers[] = [];
+        answerids.forEach(answerId => {
+            this.questionAnswerModel.findById(answerId).exec().then(questionAnswer => {
+                //console.log(questionAnswer);
+                let questionAnswersMod = new this.questionAnswerModel(questionAnswer);
+                questionAnswersSet.push(questionAnswersMod);
+
+               /* this.userModel.find({"useranswers.id": questionAnswersMod}).exec().then(selectedData => {
+                    console.log("123");
+                    console.log(selectedData);
+                    console.log("123");
+                });*/
+                this.userModel.findByIdAndUpdate(userid, {$addToSet: {'useranswers': questionAnswersMod}}).then(updatedData => {
+                    
+                    return updatedData;
+                    
+                });
+
+            });
         });
     
         //return user;
