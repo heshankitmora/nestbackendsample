@@ -34,7 +34,8 @@ export class QuestionController {
     @HttpCode(HttpStatus.OK)
     @UseGuards(RolesGuard)
     async updateQuestion(
-        @Param() params, @Body() createQuestionDto: CreateQuestionDto
+        @Param() params, 
+        @Body() createQuestionDto: CreateQuestionDto
     ) {
         return await this.questionService.updateQuestion(params.id, createQuestionDto);
     }
